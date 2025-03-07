@@ -1,7 +1,7 @@
 import copy
 import pytest
 
-from src.step import step
+from step import step
 
 #next step tests
 def test_block_stable():
@@ -45,12 +45,21 @@ def test_empty_grid_unchanged():
     assert new == grid
 
 
-def test_full_grid_all_die():
-    # In a full grid (every cell alive), overcrowding should kill cells
+def test_full_grid_edges_die():
+    # In a full grid with no wrapping:
+    # - Corner cells have 3 neighbors (survive)
+    # - Edge cells have 5 neighbors (die)
+    # - Internal cells have 8 neighbors (die)
     grid = [[1 for _ in range(4)] for __ in range(4)]
     new = step(grid, wrap=False)
-    # After one step there should be no live cells (each has 8 neighbors -> dies)
-    assert all(cell == 0 for row in new for cell in row)
+    # Corner cells should survive (3 neighbors)
+    assert new[0][0] == 1  # Corner cells survive
+    assert new[0][3] == 1
+    assert new[3][0] == 1
+    assert new[3][3] == 1
+    # Edge and internal cells should die (>3 neighbors)
+    assert new[1][1] == 0  # Internal cell dies
+    assert new[0][1] == 0  # Edge cell dies
 
 
 def test_1x1_grid_no_wrap_live_dies_and_dead_stays_dead():
@@ -81,15 +90,17 @@ def test_preserve_shape_and_values():
 def test_wrap_edge_survival():
     # Test cell survival at edges with wrapping
     grid = [
-        [1, 0, 0],
+        [1, 0, 1],
         [0, 0, 0],
-        [0, 0, 1]
+        [1, 0, 1]
     ]
-    # With wrap=True, the corner cells should see each other as neighbors
+    # With wrap=True, corners see each other and form a stable pattern
     new = step(grid, wrap=True)
-    # The corners should survive as they each have 3 neighbors when wrapped
-    assert new[0][0] == 1  # Top-left survives
-    assert new[2][2] == 1  # Bottom-right survives
+    # Each corner has 3 neighbors when wrapped (2 adjacent + 1 diagonal through wrap)
+    assert new[0][0] == 1  # Corners survive with 3 neighbors each
+    assert new[0][2] == 1
+    assert new[2][0] == 1
+    assert new[2][2] == 1
 
 
 def test_wrap_birth():
@@ -124,11 +135,12 @@ def test_wrap_horizontal_line():
         [0, 0, 0, 0]
     ]
     new = step(grid, wrap=True)
-    # With wrapping, the pattern should still oscillate
+    # With wrapping, each cell in the line has 2 neighbors,
+    # and cells above/below get 3 neighbors through wrapping
     expected = [
-        [0, 1, 1, 0],
-        [0, 1, 1, 0],
-        [0, 1, 1, 0]
+        [1, 1, 1, 1],
+        [1, 1, 1, 1],
+        [1, 1, 1, 1]
     ]
     assert new == expected
 
@@ -138,15 +150,14 @@ def test_wrap_vertical_line():
     grid = [
         [0, 1, 0],
         [0, 1, 0],
-        [0, 1, 0],
         [0, 1, 0]
     ]
     new = step(grid, wrap=True)
-    # With wrapping, the pattern should still oscillate
+    # With wrapping, each middle cell has 2 neighbors (sides) plus 1 through wrap
+    # Cells to left/right get 3 neighbors through wrapping
     expected = [
-        [0, 0, 0],
         [1, 1, 1],
         [1, 1, 1],
-        [0, 0, 0]
+        [1, 1, 1]
     ]
     assert new == expected
