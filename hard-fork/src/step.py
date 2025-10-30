@@ -1,3 +1,5 @@
+#import count_neighbors 
+
 def step(grid, wrap=True):                            
     rows, cols = len(grid), len(grid[0])              
     new = [[0]*cols for _ in range(rows)]             
