@@ -1,4 +1,4 @@
-# import the step function
+from step import step
 
 def run(rows=20, cols=60, alive_prob=0.2, steps=None, interval=0.1, wrap=True, seed=None):
    
