@@ -35,3 +35,12 @@ def test_edge_with_wrap():
     ]
     # Corners wrap around, so (0,0) and (2,2) are neighbors
     assert count_neighbors(grid, 0, 0, wrap=True) == 1
+
+def test_side_with_wrap():
+    grid = [
+        [0, 0, 0],
+        [1, 0, 1],
+        [0, 0, 0]
+    ]
+    # Left side wraps to right side
+    assert count_neighbors(grid, 1, 0, wrap=True) == 1
