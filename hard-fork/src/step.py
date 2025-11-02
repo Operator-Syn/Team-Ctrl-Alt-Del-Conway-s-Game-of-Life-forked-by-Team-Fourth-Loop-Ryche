@@ -1,4 +1,4 @@
-#import count_neighbors 
+from count_neighbors import count_neighbors 
 
 def step(grid, wrap=True):                            
     rows, cols = len(grid), len(grid[0])              
@@ -10,4 +10,4 @@ def step(grid, wrap=True):
                 new[r][c] = 1 if n in (2, 3) else 0  
             else:
                 new[r][c] = 1 if n == 3 else 0      
-    return new       
+    return new      
