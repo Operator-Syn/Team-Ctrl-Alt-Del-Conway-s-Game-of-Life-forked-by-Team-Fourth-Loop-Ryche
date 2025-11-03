@@ -1,4 +1,4 @@
-from src.grid_generation_module import make_grid
+from src.grid_generation import make_grid
 
 def test_default_make_grid():
     rows, cols = 10, 10
