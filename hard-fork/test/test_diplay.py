@@ -1,4 +1,5 @@
 import os
+import textwrap
 from src.display import clear_screen, print_grid
 
 
@@ -14,26 +15,42 @@ def test_clear_screen(monkeypatch):
     assert commands_executed == [expected_command]
 
 
+# def test_print_grid(monkeypatch, capsys):
+#     commands_executed = []
+
+#     def mock_clear_screen():
+#         commands_executed.append("clear_screen_called")
+
+#     monkeypatch.setattr("src.display.clear_screen", mock_clear_screen)
+
+#     grid_input = textwrap.dedent("""\
+#             ...
+#             .*.
+#             ...""")
+#     generation = 5
+#     print_grid(grid_input, generation=generation)
+
+#     captured = capsys.readouterr()  
+#     expected_output = textwrap.dedent(f"""\
+#                                     Generation: {generation}
+#                                     ...
+#                                     ...
+#                                     ...
+#                                     """)
+
+#     assert commands_executed == ["clear_screen_called"]
+#     assert captured.out == expected_output
+
 def test_print_grid(monkeypatch, capsys):
-    commands_executed = []
-
-    def mock_clear_screen():
-        commands_executed.append("clear_screen_called")
-
-    monkeypatch.setattr("src.display.clear_screen", mock_clear_screen)
-
-    grid = ("""\
-            ...
-            .*.
-            ...""")
+    grid = [
+        [0, 1, 0],
+        [1, 0, 1],
+        [0, 0, 1]
+    ]
     generation = 5
+
     print_grid(grid, generation=generation)
 
     captured = capsys.readouterr()
-    expected_output = "Generation: 5\
-                            ...\
-                            ...\
-                            ..."
-
-    assert commands_executed == ["clear_screen_called"]
+    expected_output = "Generation: 5\n.*.\n*.*\n..*\n"
     assert captured.out == expected_output
