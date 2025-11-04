@@ -17,3 +17,15 @@ def test_single_live_cell_has_no_neighbors():
     """)
     center_cell = (1, 1)
     assert count_neighbors(grid, *center_cell) == 0
+    
+    
+
+def test_fully_populated_grid_center_has_eight_neighbors():
+    """In a fully populated 3×3 grid, the center cell has eight neighbors."""
+    grid = make_grid("""
+        ***
+        ***
+        ***
+    """)
+    center_cell = (1, 1)
+    assert count_neighbors(grid, *center_cell) == 8
