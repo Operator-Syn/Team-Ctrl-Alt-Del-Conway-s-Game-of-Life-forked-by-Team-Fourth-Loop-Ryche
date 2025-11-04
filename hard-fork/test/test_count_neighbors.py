@@ -51,3 +51,14 @@ def test_corners_are_neighbors_when_wrap_enabled():
     """)
     top_left_cell = (0, 0)
     assert count_neighbors(grid, *top_left_cell, wrap=True) == 1
+
+
+def test_sides_wrap_around_horizontally_when_wrap_enabled():
+    """With wrapping enabled, left and right edges are adjacent."""
+    grid = make_grid("""
+        ...
+        *.*
+        ...
+    """)
+    left_cell = (1, 0)
+    assert count_neighbors(grid, *left_cell, wrap=True) == 1
