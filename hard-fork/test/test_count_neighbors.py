@@ -40,3 +40,14 @@ def test_top_left_corner_counts_only_in_bounds_neighbors_when_no_wrap():
     """)
     top_left_cell = (0, 0)
     assert count_neighbors(grid, *top_left_cell, wrap=False) == 1
+
+
+def test_corners_are_neighbors_when_wrap_enabled():
+    """With wrapping enabled, opposite corners are considered neighbors."""
+    grid = make_grid("""
+        *..
+        ...
+        ..*
+    """)
+    top_left_cell = (0, 0)
+    assert count_neighbors(grid, *top_left_cell, wrap=True) == 1
