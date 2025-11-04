@@ -6,3 +6,14 @@ def make_grid(text):
     """Convert a multiline string of '.' and '*' into a grid of 0s and 1s."""
     lines = [line.strip() for line in text.strip().splitlines()]
     return [[1 if char == '*' else 0 for char in line] for line in lines]
+
+
+def test_single_live_cell_has_no_neighbors():
+    """A lone live cell should have zero neighbors."""
+    grid = make_grid("""
+        ...
+        .*.
+        ...
+    """)
+    center_cell = (1, 1)
+    assert count_neighbors(grid, *center_cell) == 0
