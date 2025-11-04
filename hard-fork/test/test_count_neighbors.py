@@ -29,3 +29,14 @@ def test_fully_populated_grid_center_has_eight_neighbors():
     """)
     center_cell = (1, 1)
     assert count_neighbors(grid, *center_cell) == 8
+
+
+def test_top_left_corner_counts_only_in_bounds_neighbors_when_no_wrap():
+    """Without wrapping, corner cells ignore out-of-bounds neighbors."""
+    grid = make_grid("""
+        ***
+        ...
+        ...
+    """)
+    top_left_cell = (0, 0)
+    assert count_neighbors(grid, *top_left_cell, wrap=False) == 1
