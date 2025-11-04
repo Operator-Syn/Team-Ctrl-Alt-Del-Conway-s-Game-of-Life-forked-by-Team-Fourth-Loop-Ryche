@@ -114,10 +114,10 @@ def display_menu():
     # Default settings
     settings = {
         'rows': 20,
-        'cols': 60,
+        'cols': 20,
         'alive_prob': 0.2,
         'interval': 0.1,
-        'wrap': False,
+        'wrap': True,
         'steps': None
     }
     
@@ -140,6 +140,11 @@ def display_menu():
         print("6. Edit Grid Manually")
         print("7. Reset Grid")
         print("8. Exit")
+        
+        if grid is not None:
+            print("\nCurrent Grid State:")
+            for row in grid:                                 
+                print("".join('*' if cell else '.' for cell in row))
         
         choice = get_integer_input("\nEnter your choice (1-8): ", 1, 8)
         
@@ -165,7 +170,13 @@ def display_menu():
             
         elif choice == 3:
             # Set initial life probability
-            print("\nSet Initial Life Probability")
+            print("\nSet Initial Life Probability for New Grid")
+            #if ther existing grid, warn user
+            if grid is not None:
+                confirm = input("Changing this will reset the current grid. Continue? (y/n): ").strip().lower()
+                if confirm != 'y':
+                    continue
+            
             settings['alive_prob'] = get_float_input(
                 "Enter probability (0.0-1.0): ", 0.0, 1.0)
             grid = None  # Reset grid when probability changes
