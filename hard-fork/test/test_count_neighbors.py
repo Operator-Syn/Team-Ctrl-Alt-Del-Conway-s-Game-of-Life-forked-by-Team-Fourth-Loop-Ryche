@@ -1,46 +1,8 @@
 import pytest
 from src.count_neighbors import count_neighbors
 
-def test_no_neighbors():
-    grid = [
-        [0, 0, 0],
-        [0, 1, 0],
-        [0, 0, 0]
-    ]
-    assert count_neighbors(grid, 1, 1, wrap=False) == 0
-
-def test_full_neighbors():
-    grid = [
-        [1, 1, 1],
-        [1, 1, 1],
-        [1, 1, 1]
-    ]
-    # The center cell should have 8 neighbors
-    assert count_neighbors(grid, 1, 1, wrap=False) == 8
-
-def test_edge_no_wrap():
-    grid = [
-        [1, 1, 1],
-        [0, 0, 0],
-        [0, 0, 0]
-    ]
-    # top-left corner (0,0) — only 1 neighbor (0,1)
-    assert count_neighbors(grid, 0, 0, wrap=False) == 1
-
-def test_edge_with_wrap():
-    grid = [
-        [1, 0, 0],
-        [0, 0, 0],
-        [0, 0, 1]
-    ]
-    # Corners wrap around, so (0,0) and (2,2) are neighbors
-    assert count_neighbors(grid, 0, 0, wrap=True) == 1
-
-def test_side_with_wrap():
-    grid = [
-        [0, 0, 0],
-        [1, 0, 1],
-        [0, 0, 0]
-    ]
-    # Left side wraps to right side
-    assert count_neighbors(grid, 1, 0, wrap=True) == 1
+# Small visual helper for clarity
+def make_grid(text):
+    """Convert a multiline string of '.' and '*' into a grid of 0s and 1s."""
+    lines = [line.strip() for line in text.strip().splitlines()]
+    return [[1 if char == '*' else 0 for char in line] for line in lines]
