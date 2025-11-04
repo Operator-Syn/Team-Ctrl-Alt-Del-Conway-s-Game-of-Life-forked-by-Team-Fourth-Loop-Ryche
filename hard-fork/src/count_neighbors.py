@@ -1,6 +1,6 @@
 # src/neighbors.py
 
-def count_neighbors(grid, r, c, wrap):
+def count_neighbors(grid, r, c, wrap=False):
     """
     Count the number of alive neighbors around a cell at (r, c).
     Supports wrapping edges if wrap=True.
